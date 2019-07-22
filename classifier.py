@@ -172,6 +172,8 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
     qids, labels, scores = [], [], []
     time_begin = time.time()
 
+    metric = fluid.metrics.Auc()
+
     fetch_list = [
         graph_vars["loss"].name, graph_vars["accuracy"].name,
         graph_vars["probs"].name, graph_vars["labels"].name,
@@ -190,6 +192,9 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
                 auc, batch_auc, batch_stat_pos, batch_stat_neg, stat_pos, stat_neg
             ] = exe.run(
                 program=test_program, fetch_list=fetch_list)
+
+            metric.update(np_probs, np_labels)
+
             total_cost += np.sum(np_loss * np_num_seqs)
             total_acc += np.sum(np_acc * np_num_seqs)
             total_num_seqs += np.sum(np_num_seqs)
@@ -210,6 +215,9 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
             test_pyreader.reset()
             break
     time_end = time.time()
+
+    numpy_auc = metric.eval()
+    print (numpy_auc.size(), numpy_auc)
 
     if len(qids) == 0:
         print(
