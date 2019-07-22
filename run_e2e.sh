@@ -19,7 +19,7 @@ python -u run_classifier.py \
                    --save_steps 1000 \
                    --weight_decay  0.0 \
                    --warmup_proportion 0.0 \
-                   --validation_steps 100 \
+                   --validation_steps 2000 \
                    --epoch 3 \
                    --max_seq_len 128 \
                    --ernie_config_path config/ernie_config.json \
