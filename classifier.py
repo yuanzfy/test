@@ -168,7 +168,7 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
 
     test_pyreader.start()
     total_cost, total_acc, total_num_seqs, total_label_pos_num, total_pred_pos_num, total_correct_num = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-    auc, batch_auc, batch_stat_pos, batch_stat_neg, stat_pos, stat_neg = 0.0, 0.0, 0, 0, 0, 0
+    auc, batch_auc, total_batch_stat_pos, total_batch_stat_neg, total_stat_pos, total_stat_neg = 0.0, 0.0, 0, 0, 0, 0
     qids, labels, scores = [], [], []
     time_begin = time.time()
 
@@ -193,6 +193,10 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
             total_cost += np.sum(np_loss * np_num_seqs)
             total_acc += np.sum(np_acc * np_num_seqs)
             total_num_seqs += np.sum(np_num_seqs)
+            total_batch_stat_pos = np.sum(batch_stat_pos)
+            total_batch_stat_neg = np.sum(batch_stat_neg)
+            total_stat_pos = np.sum(stat_pos)
+            total_stat_neg = np.sum(stat_neg)
             labels.extend(np_labels.reshape((-1)).tolist())
             if np_qids is None:
                 np_qids = np.array([])
@@ -212,7 +216,7 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
             "[%s evaluation] ave loss: %f, ave acc: %f, auc: %f, bauc: %f, data_num: %d, elapsed time: %f s, batch_stat_pos: %s, batch_stat_neg: %s, stat_pos: %s, stat_neg: %s"
             % (eval_phase, total_cost / total_num_seqs, total_acc /
                total_num_seqs, auc, batch_auc, total_num_seqs, time_end - time_begin,
-               list(batch_stat_pos), list(batch_stat_neg), list(stat_pos), list(stat_neg)))
+               total_batch_stat_pos, total_batch_stat_neg, total_stat_pos, total_stat_neg))
     else:
         r = total_correct_num / total_label_pos_num
         p = total_correct_num / total_pred_pos_num
