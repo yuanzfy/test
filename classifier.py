@@ -172,7 +172,7 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
     qids, labels, scores = [], [], []
     time_begin = time.time()
 
-    metric = fluid.metrics.Auc()
+    metric = fluid.metrics.Auc("ROC")
 
     fetch_list = [
         graph_vars["loss"].name, graph_vars["accuracy"].name,
