@@ -196,9 +196,9 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
 
     if len(qids) == 0:
         print(
-            "[%s evaluation] ave loss: %f, ave acc: %f, data_num: %d, elapsed time: %f s"
+            "[%s evaluation] ave loss: %f, ave acc: %f, auc: %f, data_num: %d, elapsed time: %f s"
             % (eval_phase, total_cost / total_num_seqs, total_acc /
-               total_num_seqs, total_num_seqs, time_end - time_begin))
+               total_num_seqs, auc, total_num_seqs, time_end - time_begin))
     else:
         r = total_correct_num / total_label_pos_num
         p = total_correct_num / total_pred_pos_num
