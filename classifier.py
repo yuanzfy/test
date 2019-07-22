@@ -176,7 +176,6 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
         try:
             np_loss, np_acc, np_probs, np_labels, np_num_seqs, np_qids, auc = exe.run(
                 program=test_program, fetch_list=fetch_list)
-            print ("global_auc:", auc)
             total_cost += np.sum(np_loss * np_num_seqs)
             total_acc += np.sum(np_acc * np_num_seqs)
             total_num_seqs += np.sum(np_num_seqs)
