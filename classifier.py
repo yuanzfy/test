@@ -216,14 +216,13 @@ def evaluate(exe, test_program, test_pyreader, graph_vars, eval_phase):
             break
     time_end = time.time()
 
-    numpy_auc = metric.eval()
-    print (numpy_auc.size(), numpy_auc)
+    auc_auc = metric.eval()
 
     if len(qids) == 0:
         print(
-            "[%s evaluation] ave loss: %f, ave acc: %f, auc: %f, bauc: %f, data_num: %d, elapsed time: %f s, batch_stat_pos: %s, batch_stat_neg: %s, stat_pos: %s, stat_neg: %s"
+            "[%s evaluation] ave loss: %f, ave acc: %f, auc: %f, gauc: %f, bauc: %f, data_num: %d, elapsed time: %f s, batch_stat_pos: %s, batch_stat_neg: %s, stat_pos: %s, stat_neg: %s"
             % (eval_phase, total_cost / total_num_seqs, total_acc /
-               total_num_seqs, auc, batch_auc, total_num_seqs, time_end - time_begin,
+               total_num_seqs, auc_auc, auc, batch_auc, total_num_seqs, time_end - time_begin,
                total_batch_stat_pos, total_batch_stat_neg, total_stat_pos, total_stat_neg))
     else:
         r = total_correct_num / total_label_pos_num
